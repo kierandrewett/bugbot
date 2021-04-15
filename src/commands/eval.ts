@@ -32,6 +32,7 @@ export default class EvalCommand extends Command {
 
             return message.reply(type, { code: "xl", replyTo: message })
         } catch(e) {
+            console.log(e.message)
             return message.reply(e, { code: "xl", replyTo: message })
         }
     }
