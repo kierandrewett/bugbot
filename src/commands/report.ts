@@ -9,6 +9,6 @@ export default class ReportCommand extends Command {
     }
 
     public exec(message: Message) {
-        return message.channel.send(`🚧`)
+        return message.reply(`🚧`, { replyTo: message })
     }
 }

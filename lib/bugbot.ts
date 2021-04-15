@@ -9,11 +9,12 @@ class BugBot extends AkairoClient {
     public listenerHandler: ListenerHandler;
 
     constructor() {
-        super(akairoConfig, config);
+        super({ ...akairoConfig, ...config });
 
         this.commandHandler = new CommandHandler(this, {
             directory: "./src/commands",
-            prefix: discordConfig.prefix
+            prefix: discordConfig.prefix,
+            allowMention: true
         });
 
         this.inhibitorHandler = new InhibitorHandler(this, {

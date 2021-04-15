@@ -9,6 +9,6 @@ export default class PingCommand extends Command {
     }
 
     public exec(message: Message) {
-        return message.channel.send(`🏓 \`${message.client.ws.ping}ms\``)
+        return message.reply(`🏓 \`${message.client.ws.ping}ms\``, { replyTo: message })
     }
 }

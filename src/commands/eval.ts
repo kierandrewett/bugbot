@@ -30,9 +30,9 @@ export default class EvalCommand extends Command {
 
             const type = inspect(evaluated);
 
-            return message.channel.send(type, { code: "xl" })
+            return message.reply(type, { code: "xl", replyTo: message })
         } catch(e) {
-            return message.channel.send(e, { code: "xl" })
+            return message.reply(e, { code: "xl", replyTo: message })
         }
     }
 }

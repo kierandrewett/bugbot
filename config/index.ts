@@ -4,5 +4,11 @@ export * from './akairo'
 export * from './discord'
 
 export const config: ClientOptions = {
-    disableMentions: "everyone" // disable @everyone mentions
+    allowedMentions: {
+        parse: [],
+        users: [],
+        roles: [],
+        repliedUser: false,
+    },
+    intents: ['GUILDS', 'GUILD_MESSAGES']
 }
