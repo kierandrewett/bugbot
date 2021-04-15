@@ -6,5 +6,7 @@ dotenv.config();
 
 export const discordConfig: DiscordConfig = {
     token: process.env.TOKEN || "", // change this in .env
-    prefix: "bug"
+    prefix: "bug",
+
+    bugChannelId: "832361086824611880"
 }
