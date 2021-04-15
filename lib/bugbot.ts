@@ -10,5 +10,5 @@ class BugBot extends AkairoClient {
     }
 }
 
-const client = new MyClient();
+const client = new BugBot();
 client.login('TOKEN');
