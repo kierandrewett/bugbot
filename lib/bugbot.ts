@@ -14,7 +14,8 @@ class BugBot extends AkairoClient {
         this.commandHandler = new CommandHandler(this, {
             directory: "./src/commands",
             prefix: discordConfig.prefix,
-            allowMention: true
+            allowMention: true,
+            handleEdits: true,
         });
 
         this.inhibitorHandler = new InhibitorHandler(this, {
