@@ -11,7 +11,7 @@ export default class ReportCommand extends Command {
     }
 
     public exec(message: Message) {
-        message.author.send("hi")
+        message.author.send("🚧")
             .then(_ => {
                 message.react("📬")
             })
