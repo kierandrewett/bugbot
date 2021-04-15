@@ -1,3 +1,4 @@
 export interface DiscordConfig {
-    token: string
+    token: string;
+    prefix: string;
 }

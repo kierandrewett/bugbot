@@ -5,5 +5,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const discordConfig: DiscordConfig = {
-    token: process.env.TOKEN || "" // change this in .env
+    token: process.env.TOKEN || "", // change this in .env
+    prefix: "bug"
 }

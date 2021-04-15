@@ -1,4 +1,4 @@
-import BugBot from "@bugbot/lib/bugbot";
+import BugBot from "../lib/bugbot";
 
 import { discordConfig } from "../config";
 
