@@ -1,5 +1,4 @@
 import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from "discord-akairo";
-import { resolve } from "path";
 
 import { config, akairoConfig, discordConfig } from "../config";
 
