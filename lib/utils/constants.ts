@@ -1,4 +1,4 @@
 export const emotes = {
-    success: "<:bug_check:832386339328622603>",
-    error: "<:bug_fail:832386242783215756>"
+    success: "<:bug_success:832388099774218242>",
+    error: "<:bug_error:832388099891003463>"
 }
