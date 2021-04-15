@@ -1,14 +1,11 @@
 import { AkairoClient } from "discord-akairo";
 
+import { config, akairoConfig } from "@bugbot/config/index";
+
 class BugBot extends AkairoClient {
     constructor() {
-        super({
-            // Options for Akairo go here.
-        }, {
-            // Options for discord.js goes here.
-        });
+        super(akairoConfig, config);
     }
 }
 
-const client = new BugBot();
-client.login('TOKEN');
+export default BugBot;
