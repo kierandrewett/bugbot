@@ -1,7 +1,6 @@
 import { emotes } from "../../lib/utils/constants";
 import { Command } from "discord-akairo";
-import { DiscordAPIError } from "discord.js";
-import { Message } from "discord.js";
+import { DiscordAPIError, Message, MessageEmbed } from "discord.js";
 
 export default class ReportCommand extends Command {
     public constructor() {
@@ -11,9 +10,27 @@ export default class ReportCommand extends Command {
     }
 
     public exec(message: Message) {
-        message.author.send("🚧")
-            .then(_ => {
-                message.react("📬")
+        message.react("📬")
+        
+        const intro = new MessageEmbed()
+
+        intro.setTitle("👋 Hello!")
+        intro.setDescription("BugBot will ask a couple questions about your bug or issue, there is no time limit so you can take your time.")
+        intro.setColor("#2F3136")
+
+        message.author.send(intro)
+            .then(async _ => {
+                intro.setTitle("📝 Once you have finished your report...")
+                intro.setDescription("...it will be sent off to the team to make sure it isn't spam.")
+                intro.setColor("#2F3136")
+
+                await message.author.send(intro)
+
+                intro.setTitle("💭 Any questions?")
+                intro.setDescription("You can ask one of the staff for support with this whenever you like.")
+                intro.setColor("#2F3136")
+
+                await message.author.send(intro)
             })
             .catch((e: DiscordAPIError) => {
                 switch(e.code) {
