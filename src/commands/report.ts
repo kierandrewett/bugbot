@@ -35,6 +35,8 @@ export default class ReportCommand extends Command {
                         retry: (message: Message) => {
                             if(message.channel.type == "dm") {
                                 message.reply(`${emotes.error} That isn't a valid product. Try running \`bug report\` again.`, { replyTo: message })
+                            } else {
+                                message.reply(`${emotes.error} This command must be ran in a DM with the bot.`, { replyTo: message });
                             }
                         }
                     }
