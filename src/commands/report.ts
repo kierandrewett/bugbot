@@ -1,42 +1,49 @@
-import { emotes } from "../../lib/utils/constants";
+import { emotes, products } from "../../lib/utils/constants";
 import { Command } from "discord-akairo";
 import { DiscordAPIError, Message, MessageEmbed } from "discord.js";
 
 export default class ReportCommand extends Command {
+    public sentPrompt?: boolean;
+
     public constructor() {
+        const productEmbed = new MessageEmbed();
+        productEmbed.setTitle("🤔 What product does the bug occur on?")
+        productEmbed.setColor("#FFC95D")
+        productEmbed.setDescription(`Valid products: \`${products.map(p => p[0]).join(", ")}\``)
+
         super('report', {
             aliases: ['report'],
+
+            args: [
+                {
+                    id: 'product',
+                    type: products,
+                    prompt: {
+                        start: (message: Message) => {
+                            if(message.channel.type == "dm") message.reply("", productEmbed)
+                            else {
+                                message.reply(`${emotes.error} This command must be ran in a DM with the bot.`, { replyTo: message });
+                                this.sentPrompt = true;
+                            }
+                        },
+                        retry: (message: Message) => {
+                            if(message.channel.type == "dm") {
+                                message.reply(`${emotes.error} That isn't a valid product. Try running \`bug report\` again.`, { replyTo: message })
+                            }
+                        }
+                    }
+                }
+            ]
         });
+        
     }
 
-    public exec(message: Message) {
-        const intro = new MessageEmbed()
+    public exec(message: Message, args: any) {
+        if(message.channel.type != "dm") {
+            if(!this.sentPrompt) message.reply(`${emotes.error} This command must be ran in a DM with the bot.`, { replyTo: message });
+            return;
+        };
 
-        intro.setTitle("👋 Hello!")
-        intro.setDescription("BugBot will ask a couple questions about your bug or issue, there is no time limit so you can take your time.")
-        intro.setColor("#2F3136")
-
-        message.author.send(intro)
-            .then(async _ => {
-                message.react("📬")
-
-                intro.setTitle("📝 Once you have finished your report...")
-                intro.setDescription("...it will be sent off to the team to make sure it isn't spam.")
-                intro.setColor("#2F3136")
-
-                await message.author.send(intro)
-
-                intro.setTitle("💭 Any questions?")
-                intro.setDescription("You can ask one of the staff for support with this whenever you like.")
-                intro.setColor("#2F3136")
-
-                await message.author.send(intro)
-            })
-            .catch((e: DiscordAPIError) => {
-                switch(e.code) {
-                    case(50007):
-                        message.reply(`${emotes.error} We were unable to direct message you!`, { replyTo: message })
-                }
-            })
+        message.reply("BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS", { replyTo: message })
     }
 }
