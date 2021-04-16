@@ -28,13 +28,13 @@ export default class ReportCommand extends Command {
                                         message.reply(`${emotes.error} This command must be ran in a DM with the bot.`, { replyTo: message });
                                     })
                                     .catch(e => {
-                                        message.reply(`${emotes.error} We were unable to DM you.`, { replyTo: message });
+                                        message.reply(`${emotes.error} We were unable to DM you.\nChances are your privacy settings are blocking DMs.`, { replyTo: message });
                                     })
                             }
                         },
                         retry: (message: Message) => {
                             if(message.channel.type == "dm") {
-                                message.reply(`${emotes.error} That isn't a valid product. Try running \`bug report\` again.`, { replyTo: message })
+                                message.reply(`${emotes.error} Sorry! That didn't work.\nTry running \`bug report\` again and enter the **correct** product.`, { replyTo: message })
                             } else {
                                 message.reply(`${emotes.error} This command must be ran in a DM with the bot.`, { replyTo: message });
                             }
@@ -52,6 +52,21 @@ export default class ReportCommand extends Command {
             return;
         };
 
-        message.reply("BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS BINGUS", { replyTo: message })
+        const summaryEmbed = new MessageEmbed();
+        summaryEmbed.setTitle("🚀 Can you write a short summary on the bug?");
+        summaryEmbed.setColor("#FFC95D");
+        summaryEmbed.setDescription("Make it short, snappy and clear.\nThis helps Dot HQ identify and organise reports easier.");
+        message.reply("", summaryEmbed);
+        let filter = (m: Message) => m.author.id === message.author.id;
+
+        message.channel.awaitMessages(filter, {
+            max: 1,
+            time: 30000,
+            errors: ["time"]
+        })
+        .then(summaryMessage => {
+            const summaryResponse = summaryMessage.first();
+            console.log(summaryResponse?.content);
+        })
     }
 }
