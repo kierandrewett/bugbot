@@ -53,18 +53,19 @@ export default class ReportCommand extends Command {
         };
 
         const summaryEmbed = new MessageEmbed();
-        summaryEmbed.setTitle("🚀 Can you write a short summary on the bug?");
-        summaryEmbed.setColor("#FFC95D");
-        summaryEmbed.setDescription("Make it short, snappy and clear.\nThis helps Dot HQ identify and organise reports easier.");
+            summaryEmbed.setTitle("🚀 Can you write a short summary on the bug?");
+            summaryEmbed.setColor("#FFC95D");
+            summaryEmbed.setDescription("Make it short, snappy and clear.\nThis helps Dot HQ identify and organise reports easier.");
         message.reply("", summaryEmbed);
-        let filter = (m: Message) => m.author.id === message.author.id;
 
-        message.channel.awaitMessages(filter, {
-            max: 1,
-            time: 30000,
-            errors: ["time"]
-        })
-        .then(summaryMessage => {
+        message.channel.awaitMessages(
+            (m: Message) => m.author.id === message.author.id, 
+            {
+                max: 1,
+                time: 30000,
+                errors: ["time"]
+            }
+        ).then(summaryMessage => {
             const summaryResponse = summaryMessage.first();
             console.log(summaryResponse?.content);
         })

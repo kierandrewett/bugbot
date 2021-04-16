@@ -1,4 +1,4 @@
-import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from "discord-akairo";
+import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, SQLiteProvider } from "discord-akairo";
 
 import { config, akairoConfig, discordConfig } from "../config";
 
@@ -6,6 +6,8 @@ class BugBot extends AkairoClient {
     public commandHandler: CommandHandler;
     public inhibitorHandler: InhibitorHandler;
     public listenerHandler: ListenerHandler;
+
+    public settings: SQLiteProvider;
 
     constructor() {
         super({ ...akairoConfig, ...config });
@@ -25,6 +27,8 @@ class BugBot extends AkairoClient {
         this.listenerHandler = new ListenerHandler(this, {
             directory: './src/events'
         });
+
+        this.settings = new SQLiteProvider(open("./db.sqlite"), 'data');
 
         this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
         this.commandHandler.useListenerHandler(this.listenerHandler);
