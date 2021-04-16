@@ -10,8 +10,6 @@ export default class ReportCommand extends Command {
     }
 
     public exec(message: Message) {
-        message.react("📬")
-        
         const intro = new MessageEmbed()
 
         intro.setTitle("👋 Hello!")
@@ -20,6 +18,8 @@ export default class ReportCommand extends Command {
 
         message.author.send(intro)
             .then(async _ => {
+                message.react("📬")
+
                 intro.setTitle("📝 Once you have finished your report...")
                 intro.setDescription("...it will be sent off to the team to make sure it isn't spam.")
                 intro.setColor("#2F3136")
