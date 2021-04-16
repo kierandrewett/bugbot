@@ -19,11 +19,17 @@ export default class ReportCommand extends Command {
                     id: 'product',
                     type: products,
                     prompt: {
-                        start: (message: Message) => {
+                        start: async (message: Message) => {
                             if(message.channel.type == "dm") message.reply("", productEmbed)
                             else {
-                                message.reply(`${emotes.error} This command must be ran in a DM with the bot.`, { replyTo: message });
-                                this.sentPrompt = true;
+                                message.author.send("__\n__")
+                                    .then(msg => {
+                                        msg.delete()
+                                        message.reply(`${emotes.error} This command must be ran in a DM with the bot.`, { replyTo: message });
+                                    })
+                                    .catch(e => {
+                                        message.reply(`${emotes.error} We were unable to DM you.`, { replyTo: message });
+                                    })
                             }
                         },
                         retry: (message: Message) => {
