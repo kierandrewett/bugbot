@@ -32,6 +32,10 @@ class BugBot extends AkairoClient {
         this.inhibitorHandler.loadAll();
         this.listenerHandler.loadAll();
         this.commandHandler.loadAll();
+
+        process.on("uncaughtException", (e) => {
+            console.log(e)
+        })
     }
 }
 
