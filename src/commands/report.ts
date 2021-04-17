@@ -1,6 +1,8 @@
 import { emotes, products } from "../../lib/utils/constants";
 import { Command } from "discord-akairo";
 import { DiscordAPIError, Message, MessageEmbed } from "discord.js";
+import { sign } from "node:crypto";
+import { stringify } from "node:querystring";
 
 export default class ReportCommand extends Command {
     public sentPrompt?: boolean;
@@ -51,22 +53,48 @@ export default class ReportCommand extends Command {
             if(!this.sentPrompt) message.reply(`${emotes.error} This command must be ran in a DM with the bot.`, { replyTo: message });
             return;
         };
+        
+        let filter = (m: Message) => m.author.id === message.author.id;
+        let summary: any = "";
+        let reproduce: any = "";
 
+        const summaryFunction = () => {
         const summaryEmbed = new MessageEmbed();
         summaryEmbed.setTitle("🚀 Can you write a short summary on the bug?");
         summaryEmbed.setColor("#FFC95D");
         summaryEmbed.setDescription("Make it short, snappy and clear.\nThis helps Dot HQ identify and organise reports easier.");
         message.reply("", summaryEmbed);
-        let filter = (m: Message) => m.author.id === message.author.id;
 
         message.channel.awaitMessages(filter, {
             max: 1,
-            time: 30000,
+            time: 1800000,
             errors: ["time"]
         })
         .then(summaryMessage => {
             const summaryResponse = summaryMessage.first();
-            console.log(summaryResponse?.content);
-        })
+            summary = summaryResponse?.content.toString();
+            reproduceFunction();
+        });
+        }
+
+        const reproduceFunction = () => {
+            const reproduceEmbed = new MessageEmbed();
+            reproduceEmbed.setTitle("👩‍🔬 Can you tell us how to reproduce the bug?");
+            reproduceEmbed.setColor("#FFC95D");
+            reproduceEmbed.setDescription(summary);
+            message.channel.send("", reproduceEmbed);
+            message.channel.awaitMessages(filter, {
+                max: 1,
+                time: 1800000,
+                errors: ["time"]
+            })
+            .then(reproduceMessage => {
+                const reproduceResponse = reproduceMessage.first();
+                reproduce = reproduceResponse?.content.toString();
+                
+            });
+        }
+
+        summaryFunction();
     }
 }
