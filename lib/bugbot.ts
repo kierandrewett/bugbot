@@ -1,11 +1,14 @@
-import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from "discord-akairo";
-
+import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler, SQLiteProvider } from "discord-akairo";
+import { open } from "sqlite";
+import { Database } from "sqlite3";
 import { config, akairoConfig, discordConfig } from "../config";
 
 class BugBot extends AkairoClient {
     public commandHandler: CommandHandler;
     public inhibitorHandler: InhibitorHandler;
     public listenerHandler: ListenerHandler;
+
+    public settings: SQLiteProvider;
 
     constructor() {
         super({ ...akairoConfig, ...config });
@@ -26,6 +29,16 @@ class BugBot extends AkairoClient {
             directory: './src/events'
         });
 
+        this.settings = new SQLiteProvider(open({
+            filename: "db.sqlite",
+            driver: Database
+        }), 'data', {
+            idColumn: 'id',
+            dataColumn: 'data'
+        });
+
+        // this.initDB();
+
         this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
         this.commandHandler.useListenerHandler(this.listenerHandler);
 
@@ -36,6 +49,10 @@ class BugBot extends AkairoClient {
         process.on("uncaughtException", (e) => {
             console.log(e)
         })
+    }
+
+    public async initDB() {
+        await this.settings.init()
     }
 }
 

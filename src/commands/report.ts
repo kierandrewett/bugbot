@@ -60,9 +60,9 @@ export default class ReportCommand extends Command {
 
         const summaryFunction = () => {
         const summaryEmbed = new MessageEmbed();
-        summaryEmbed.setTitle("🚀 Can you write a short summary on the bug?");
-        summaryEmbed.setColor("#FFC95D");
-        summaryEmbed.setDescription("Make it short, snappy and clear.\nThis helps Dot HQ identify and organise reports easier.");
+            summaryEmbed.setTitle("🚀 Can you write a short summary on the bug?");
+            summaryEmbed.setColor("#FFC95D");
+            summaryEmbed.setDescription("Make it short, snappy and clear.\nThis helps Dot HQ identify and organise reports easier.");
         message.reply("", summaryEmbed);
 
         message.channel.awaitMessages(filter, {
